@@ -55,7 +55,7 @@ for wnorm = 0:1
         
         
         %% estimate receptive fields
-        [ycent, xcent] = estimateRFs(reshape(imgtrain,Ly,Lx,ntrain), rtrain);
+        [ycent, xcent] = estimateRFs(reshape(imgtrain,Ly,Lx,ntrain), rtrain, useGPU);
         drawnow;
         
         % use RF center to specify X,Y to loop over with gabors

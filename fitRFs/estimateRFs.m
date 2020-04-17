@@ -1,4 +1,4 @@
-function [ycent, xcent] = estimateRFs(imgs, rtrain)
+function [ycent, xcent] = estimateRFs(imgs, rtrain, useGPU)
 
 [Ly, Lx, nimg] = size(imgs);
 
@@ -23,17 +23,23 @@ A(2,:) = spat;
 A(3,:) = sratio;
 A(4,:) = ori;
 A(5,:) = phase;
-A = gpuArray(single(A));
-X = gpuArray(single(X));
+
+if useGPU
+    A = gpuArray(single(A));
+    X = gpuArray(single(X));
+end
 
 % gabors at each pixel location
 gb = gaborReduced(A,X);
 
 imgs   = reshape(imgs, [], nimg);
 respGB = gb' * imgs;
-respGB = gather(respGB);
 
-cc = corr(respGB', rtrain);        
+if useGPU
+    respGB = gather(respGB);
+end
+
+cc = corr(respGB', rtrain);
 [~,ip] = max(abs(cc),[],1);
 
 ycent = ys(ip);
