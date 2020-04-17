@@ -37,7 +37,7 @@ addpath(genpath('.'));
 
 % fits natural image responses using low-rank model of RFs
 % saves in matroot/lowrank_fits.mat
-fitLowRankRFs(dataroot,matroot,useGPU);
+%fitLowRankRFs(dataroot,matroot,useGPU);
 
 % fits gabors to natural image responses
 % each cell is a simple + complex cell with fit scaling constants
