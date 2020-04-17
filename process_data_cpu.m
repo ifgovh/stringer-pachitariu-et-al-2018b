@@ -5,8 +5,8 @@ clear all;
 % where data is stored (that you download from figshare)
 dataroot = '/scratch/cortical/smooth_code/exp_data/';        
 % where processed data and results are saved
-matroot  = '/scratch/cortical/smooth_code/exp_analysis/';
-useGPU = 1;
+matroot  = '/scratch/cortical/smooth_code/exp_analysis_cpu/';
+useGPU = 0;
 
 addpath(genpath('.'));
 
@@ -18,22 +18,22 @@ addpath(genpath('.'));
 % respAll{k} is stims x neurons x 2 repeats
 % istimAll{k} are the stimulus identities for images that were repeated
 % twice => imgs(:,:,istimAll{k}) are presented images
-compileResps(dataroot, matroot, useGPU);
+%compileResps(dataroot, matroot, useGPU);
 
 % compute cross-validated PCs and signal variance and SNR and responsiveness
 % saves in matroot/eigs_and_stats_all.mat
-statsShuffledPCA(dataroot, matroot);
+%statsShuffledPCA(dataroot, matroot);
 
 % treat responses to 32 natural images repeated 96 times as 32*48 images
 % repeated twice, and compute the cross-validated PCs
 % saves in matroot/natimg32_reps.mat
-natimg32PCA(dataroot, matroot, useGPU);
+%natimg32PCA(dataroot, matroot, useGPU);
 
 % decode responses to 2800 natural images from one repeat
 % decoder correlates responses on first half to second half
 % stimulus that is most correlated is the decoded stimulus
 % saves in matroot/decoder2800.mat
-decode2800(matroot);
+%decode2800(matroot);
 
 % fits natural image responses using low-rank model of RFs
 % saves in matroot/lowrank_fits.mat
