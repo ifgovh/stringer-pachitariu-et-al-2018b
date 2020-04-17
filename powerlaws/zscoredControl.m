@@ -1,5 +1,5 @@
 % compute cross-validated PCs of z-scored data
-function zscoredControl(matroot,useGPU)
+function zscoredControl(matroot)
 
 load(fullfile(matroot,'natimg2800_proc.mat'));
 load(fullfile(matroot,'eigs_and_stats_all.mat'));
@@ -29,7 +29,7 @@ for k = 1:numel(respAll)
     
     nshuff = 10;
     respN = zscore(respN,1,1);
-    [ss0,cproj] = shuffledSpectrum(respN, nshuff, useGPU);
+    [ss0,cproj] = shuffledSpectrum(respN, nshuff);
     cproj = gather_try(cproj);
     ss = gather_try(nanmean(ss0,2));
     ss = ss(:) / sum(ss);

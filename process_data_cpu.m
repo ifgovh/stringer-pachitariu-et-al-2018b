@@ -42,20 +42,20 @@ addpath(genpath('.'));
 % fits gabors to natural image responses
 % each cell is a simple + complex cell with fit scaling constants
 % saves in matroot/gabor_fits.mat
-fitGaborRFs(dataroot,matroot,useGPU);
+%fitGaborRFs(dataroot,matroot,useGPU);
 
 % computes responses of gabor model to image stimuli fit to mouse that was
 % shown all 6 different image sets 
 % saves in matroot/gabor_spectrum.mat
-simGaborFits(dataroot, matroot, useGPU);
+%simGaborFits(dataroot, matroot, useGPU);
 
 % compute cross-validated PCs for varying numbers of neurons and stimuli
 % saves in matroot/eigs_incneurstim_X.mat where X is stimset
-incNeurStimPowerLaw(dataroot,matroot);
+%incNeurStimPowerLaw(dataroot,matroot);
 
 % simulations of powerlaw with various tuning curves
 % saves in matroot/scalefree.mat
-fractalvmanifold(matroot)
+%fractalvmanifold(matroot)
 
 %% SCRIPTS FOR CONTROLS
 
