@@ -5,7 +5,7 @@
 function simPowerLaw_deconv(matroot)
 
 % need path to OASIS matlab package
-addpath(genpath('/github/OASIS_matlab'));
+addpath(genpath('/scratch/cortical/smooth_code/OASIS_matlab'));
 
 %% use empirical noise spectrum
 

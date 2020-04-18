@@ -61,20 +61,20 @@ addpath(genpath('.'));
 
 % compute cross-validated PCs of z-scored data
 % saves in matroot/zscored_spectrum.mat
-zscoredControl(matroot,useGPU);
+%zscoredControl(matroot);
 
 % subtract varying numbers of spontaneous PCs and compute cross-validated
 % stimulus PCs
 % saves in matroot/spontPC_spectrum.mat
-spontPCPowerLaw(dataroot, matroot, useGPU);
+%spontPCPowerLaw(dataroot, matroot, useGPU);
 
 % empirical noise spectrum
-noiseSpectrum(matroot);
+%noiseSpectrum(matroot);
 
 %%% simulations to validate cross-validated PCA method
 % simulations with additive, gain, or both noise
 % also computes normal PCA to compare cvPCA vs PCA
-simPowerLaw_with_gain(matroot);
+%simPowerLaw_with_gain(matroot);
 % simulations with 2P noise + deconvolution
 % (will need to download OASIS_matlab repository from github and addpath)
 simPowerLaw_deconv(matroot);

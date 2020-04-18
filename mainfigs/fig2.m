@@ -1,16 +1,16 @@
 function fig2(matroot)
-
+use_GPU =false;
 %%
 load(fullfile(matroot,'eigs_and_stats_all.mat'));
 d=load(fullfile(matroot,'eigs_incneurstim_natimg2800.mat'));
 load(fullfile(matroot,'natimg32_reps'));  % from powerlaw_natimg32.m
-load(fullfile(matroot,'natimg2800_proc.mat'));    
+load(fullfile(matroot,'natimg2800_proc.mat'));
 
 %%
 gb=load(fullfile(matroot,'gabor_fits.mat'));
 specG = NaN*ones(2800,length(gb.specS));
 for j = 1:length(gb.specS)
-	specG(1:length(gb.specS{j}),j) = gb.specS{j};
+    specG(1:length(gb.specS{j}),j) = gb.specS{j};
 end
 specG = specG ./ nansum(specG,1);
 
@@ -23,11 +23,16 @@ vexpALL = repvar;
 % stimulus variance
 repvar = mean(zscore(respBz(:,:,1),1,2).*zscore(respBz(:,:,2),1,2), 2);
 vstimALL = repvar;
-[~, istim] = sort(vstimALL, 'descend');                          
-
-R1 = gpuArray(single(respBz(:,:,1)));
+[~, istim] = sort(vstimALL, 'descend');
+if use_GPU
+    R1 = gpuArray(single(respBz(:,:,1)));
+else
+    R1 = single(respBz(:,:,1));
+end
 [~, ~, C] = svdecon(R1);
-C = gather(C);
+if use_GPU
+    C = gather(C);
+end
 cproj = [];
 cproj(:,:,1) = respBz(:,:,1) * C;
 cproj(:,:,2) = respBz(:,:,2) * C;
@@ -105,7 +110,7 @@ shadedErrorBar([1:size(S32,1)]', nanmean(S32,2), ...
 %
 text(.65, .55, {'2800', 'images'}, 'Horizontalalign', 'left', 'Fontsize', 8, 'Color', 'b')
 text(.03, 1.2, {'32 images'}, 'Horizontalalign', 'left', 'Fontsize', 8, 'Color', [.5 .5 0])
-           
+
 plot([32 32], 10.^[-5 0],'--','color',[0 0 0]);
 ylabel({'variance','(cumulative)'})
 set(gca, 'ytick', [0:.2:1],'xtick',10.^[0:3])
@@ -212,9 +217,9 @@ blu = [0 0 1];
 red = [1 0 0];
 green = [0 .5 0];
 cols{1} = [linspace(blu(1), red(1), nl); ...
-     linspace(blu(2), red(2), nl); linspace(blu(3), red(3), nl)]';
+    linspace(blu(2), red(2), nl); linspace(blu(3), red(3), nl)]';
 cols{2} = [linspace(blu(1), green(1), nl); ...
-     linspace(blu(2), green(2), nl); linspace(blu(3), green(3), nl)]';
+    linspace(blu(2), green(2), nl); linspace(blu(3), green(3), nl)]';
 for ij = 1:2
     col = cols{ij};
     i=i+1;
@@ -258,12 +263,12 @@ for ij = 1:2
         text(.0, 1.32, {'fraction of', 'all stimuli:'}, 'HorizontalAlign', 'left','fontsize',8)
     end
     box off
-	ylim(10.^[-5 -.5])
-	xlim([0 2800]);
-	ylabel('variance')
-	set(gca,'ytick', 10.^[-5:0])
-	set(gca,'xtick', 10.^[0:4])
-	ylabel('variance')
+    ylim(10.^[-5 -.5])
+    xlim([0 2800]);
+    ylabel('variance')
+    set(gca,'ytick', 10.^[-5:0])
+    set(gca,'xtick', 10.^[0:4])
+    ylabel('variance')
     xlabel('dimension')
     grid on;
     grid minor;
@@ -290,7 +295,7 @@ for kt = 1:2
         for j = 1:numel(nfrac)
             errorbar(nfrac(j), nanmean(p(j,:)), nanstd(p(j,:))/sqrt(size(p,2)),'.','color',cols{ij}(j,:),'markersize',10);
         end
-            
+        
     end
     axis tight;
     box off;
@@ -304,7 +309,7 @@ for kt = 1:2
     xlabel({'fraction of','neurons/stimuli'});
     axis square;
 end
-    
+
 %
 for j = 1:length(hs)
     axes(hs{j});

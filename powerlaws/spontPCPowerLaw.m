@@ -57,7 +57,7 @@ for k = 1:length(iexp)
         respB = respB(iNotNaN, :, :);
 
         nshuff = 10;
-        ss0 = shuffledSpectrum(respB, nshuff, useGPU);
+        ss0 = shuffledSpectrum(respB, nshuff);
         ss  = gather_try(nanmean(ss0,2));
         ss  = ss(:) / sum(ss);
         
